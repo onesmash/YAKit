@@ -12,6 +12,7 @@
 		0316809D2007598800893A93 /* YAComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 0316809C2007598800893A93 /* YAComponent.m */; };
 		031680A420075AEE00893A93 /* UIView+YAPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 031680A320075AEE00893A93 /* UIView+YAPresenter.m */; };
 		031680A720075B0200893A93 /* UIViewController+YAPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 031680A620075B0200893A93 /* UIViewController+YAPresenter.m */; };
+		03C0892520086303009566B4 /* NSObject+YASwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 03C0892420086303009566B4 /* NSObject+YASwizzle.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -41,6 +42,8 @@
 		031680A320075AEE00893A93 /* UIView+YAPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+YAPresenter.m"; sourceTree = "<group>"; };
 		031680A520075B0200893A93 /* UIViewController+YAPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+YAPresenter.h"; sourceTree = "<group>"; };
 		031680A620075B0200893A93 /* UIViewController+YAPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+YAPresenter.m"; sourceTree = "<group>"; };
+		03C0892320086303009566B4 /* NSObject+YASwizzle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+YASwizzle.h"; sourceTree = "<group>"; };
+		03C0892420086303009566B4 /* NSObject+YASwizzle.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+YASwizzle.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +86,7 @@
 		031680922007564200893A93 /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
+				03C08922200862E5009566B4 /* Swizzle */,
 				03168096200756C000893A93 /* Architecture */,
 			);
 			path = Foundation;
@@ -119,6 +123,15 @@
 				031680A620075B0200893A93 /* UIViewController+YAPresenter.m */,
 			);
 			path = Presenter;
+			sourceTree = "<group>";
+		};
+		03C08922200862E5009566B4 /* Swizzle */ = {
+			isa = PBXGroup;
+			children = (
+				03C0892320086303009566B4 /* NSObject+YASwizzle.h */,
+				03C0892420086303009566B4 /* NSObject+YASwizzle.m */,
+			);
+			path = Swizzle;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -178,6 +191,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03C0892520086303009566B4 /* NSObject+YASwizzle.m in Sources */,
 				03168099200756C000893A93 /* NSObject+YAComponent.m in Sources */,
 				031680A420075AEE00893A93 /* UIView+YAPresenter.m in Sources */,
 				0316809D2007598800893A93 /* YAComponent.m in Sources */,

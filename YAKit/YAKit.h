@@ -7,5 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "NSObject+YAComponent.h"
+#import "YAViewPresenterProtocol.h"
+#import "YAVCPresenterProtocol.h"
+#import "YAComponent.h"
 
 
