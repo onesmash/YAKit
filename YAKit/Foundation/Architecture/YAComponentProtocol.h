@@ -10,9 +10,9 @@
 #define YAComponentProtocol_h
 
 @protocol YAComponentProtocol <NSObject>
-@property (nonatomic, weak) id object;
+@property (nonatomic, weak) id delegate;
 - (Protocol *)requiredProtocol;
-- (void)onAttachedToObject;
+- (void)onComponentAttached;
 @end
 
 #endif /* YAComponentProtocol_h */

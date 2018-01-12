@@ -27,8 +27,8 @@ static char* kComponentsKey;
 {
     if([self conformsToProtocol:[component requiredProtocol]]) {
         [[self ya_components] setObject:component forKey:NSStringFromProtocol([component requiredProtocol])];
-        component.object = self;
-        [component onAttachedToObject];
+        component.delegate = self;
+        [component onComponentAttached];
         return YES;
     }
     return NO;
@@ -37,7 +37,7 @@ static char* kComponentsKey;
 - (void)ya_removeComponent:(Protocol *)protocol
 {
     id<YAComponentProtocol> component = [[self ya_components] objectForKey:NSStringFromProtocol(protocol)];
-    component.object = nil;
+    component.delegate = nil;
     [[self ya_components] removeObjectForKey:NSStringFromProtocol(protocol)];
 }
 

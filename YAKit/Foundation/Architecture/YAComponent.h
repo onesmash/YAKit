@@ -11,6 +11,6 @@
 
 @interface YAComponent : NSObject <YAComponentProtocol>
 
-@property (nonatomic, weak) id object;
+@property (nonatomic, weak) id delegate;
 
 @end

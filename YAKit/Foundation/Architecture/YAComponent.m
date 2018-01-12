@@ -15,7 +15,7 @@
     return @protocol(NSObject);
 }
 
-- (void)onAttachedToObject
+- (void)onComponentAttached
 {
     
 }
