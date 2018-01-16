@@ -19,6 +19,6 @@ Pod::Spec.new do |s|
 
   s.source_files  = "YAKit", "YAKit/**/*.{h,m}"
 
-  s.public_header_files = "YAKit/YAKit.h", "YAKit/Foundation/Architecture/NSObject+YAComponent.h", "YAKit/Foundation/Architecture/YAComponentProtocol.h", "YAKit/Foundation/Architecture/YAComponent.h", "YAKit/UIKit/Presenter/YAViewPresenterProtocol.h", "YAKit/UIKit/Presenter/YAVCPresenterProtocol.h"
+  s.public_header_files = ["YAKit/YAKit.h", "YAKit/Foundation/Architecture/NSObject+YAComponent.h", "YAKit/Foundation/Architecture/YAComponentProtocol.h", "YAKit/Foundation/Architecture/YAComponent.h", "YAKit/UIKit/Presenter/YAViewPresenterProtocol.h", "YAKit/UIKit/Presenter/YAVCPresenterProtocol.h"]
 
 end
