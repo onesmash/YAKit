@@ -33,6 +33,33 @@ static char kObserverKey;
     return lock_;
 }
 
+- (void)ya_addObserverOnce:(NSObject *)observer forKey:(NSString *)key block:(YAObserveHandler)block
+{
+    SEL sel = NSSelectorFromString(key);
+    if([self respondsToSelector:sel]) {
+        [observer.KVOController observe:self keyPath:key options:0 block:^(NSObject *observer, id object, NSDictionary *change) {
+            [observer.KVOController unobserve:object keyPath:key];
+            if(block) {
+                block(observer, object);
+            }
+        }];
+    } else {
+        [self.lock lock];
+        NSMapTable *table = [self.observers objectForKey:key];
+        if(!table) {
+            table = [NSMapTable weakToStrongObjectsMapTable];
+            [self.observers setObject:table forKey:key];
+        }
+        NSMutableArray *blocks = [table objectForKey:observer];
+        if(!blocks) {
+            blocks = [NSMutableArray array];
+            [table setObject:blocks forKey:observer];
+        }
+        [blocks addObject:block];
+        [self.lock unlock];
+    }
+}
+
 - (void)ya_addObserver:(NSObject *)observer forKey:(NSString *)key block:(YAObserveHandler)block
 {
     SEL sel = NSSelectorFromString(key);
