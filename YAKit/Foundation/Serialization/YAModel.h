@@ -8,6 +8,7 @@
 #import <Foundation/Foundation.h>
 
 @protocol YAModel <NSObject>
++ (void)registerAllKeyProtocols;
 + (void)registerKeyProtocol:(Protocol *)proto;
 @end
 

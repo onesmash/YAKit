@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "YAKit"
-  s.version      = "0.0.1"
+  s.version      = "0.0.3"
   s.summary      = "YAKit"
 
   s.description  = <<-DESC
@@ -19,6 +19,8 @@ Pod::Spec.new do |s|
 
   s.source_files  = "YAKit", "YAKit/**/*.{h,m}"
 
-  s.public_header_files = ["YAKit/YAKit.h", "YAKit/Foundation/Architecture/NSObject+YAComponent.h", "YAKit/Foundation/Architecture/YAComponentProtocol.h", "YAKit/Foundation/Architecture/YAComponent.h", "YAKit/UIKit/Presenter/YAViewPresenterProtocol.h", "YAKit/UIKit/Presenter/YAVCPresenterProtocol.h"]
+  s.public_header_files = ["YAKit/YAKit.h", "YAKit/Foundation/Architecture/NSObject+YAComponent.h", "YAKit/Foundation/Architecture/YAComponentProtocol.h", "YAKit/Foundation/Architecture/YAComponent.h", "YAKit/UIKit/Presenter/YAViewPresenterProtocol.h", "YAKit/UIKit/Presenter/YAVCPresenterProtocol.h", "YAKit/Foundation/Serialization/YAModel.h", "YAKit/Foundation/Observe/NSObject+YAObserve.h"]
+
+  s.dependency 'KVOController'
 
 end

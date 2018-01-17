@@ -8,8 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "NSObject+YAComponent.h"
+#import "NSObject+YAObserve.h"
 #import "YAViewPresenterProtocol.h"
 #import "YAVCPresenterProtocol.h"
 #import "YAComponent.h"
+#import "YAModel.h"
 
 
