@@ -10,7 +10,6 @@
 #import <objc/runtime.h>
 
 static char kObserverKey;
-static char kLockKey;
 
 @implementation NSObject (YAObserve)
 
