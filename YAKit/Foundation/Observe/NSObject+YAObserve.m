@@ -26,15 +26,11 @@ static char kLockKey;
 
 - (NSRecursiveLock *)lock
 {
-    __block id lock_ = objc_getAssociatedObject(self, &kLockKey);
-    if(!lock_) {
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            lock_ = [[NSRecursiveLock alloc] init];
-            objc_setAssociatedObject(self, &kLockKey, lock_, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-        });
-        lock_ = objc_getAssociatedObject(self, &kLockKey);
-    }
+    static NSRecursiveLock *lock_;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        lock_ = [[NSRecursiveLock alloc] init];
+    });
     return lock_;
 }
 
