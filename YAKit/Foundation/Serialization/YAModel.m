@@ -7,8 +7,19 @@
 
 #import "YAModel.h"
 #import <objc/runtime.h>
+#import <objc/message.h>
 
 static char* kSerializableKeyKey;
+
+@interface YASerializableKeyInfo : NSObject
+@property (nonatomic, assign) BOOL isObject;
+@property (nonatomic, copy) NSString *typeEncode;
+@property (nonatomic, assign) NSUInteger typeSize;
+@property (nonatomic, assign) SEL customTransformer;
+@end
+
+@implementation YASerializableKeyInfo
+@end
 
 @implementation YAModel
 
@@ -24,6 +35,7 @@ static char* kSerializableKeyKey;
 
 + (void)registerKeyProtocol:(Protocol *)proto
 {
+    NSString *idEncode = [NSString stringWithUTF8String:@encode(id)];
     char* voidEncode = @encode(void);
     unsigned int count = 0;
     struct objc_method_description *methodsDesc = protocol_copyMethodDescriptionList(proto, YES, YES, &count);
@@ -33,7 +45,14 @@ static char* kSerializableKeyKey;
         if(strcmp(voidEncode, methodSig.methodReturnType) == 0) {
             continue;
         } else {
-            [[self serializableKeyInfos] setObject:[NSString stringWithUTF8String:methodSig.methodReturnType] forKey:NSStringFromSelector(methodDesc->name)];
+            NSString *selName = NSStringFromSelector(methodDesc->name);
+            SEL customTransformerSel = NSSelectorFromString([NSString stringWithFormat:@"%@Transformer:", selName]);
+            YASerializableKeyInfo *info = [[YASerializableKeyInfo alloc] init];
+            info.typeEncode = [NSString stringWithUTF8String:methodSig.methodReturnType];
+            info.isObject = [info.typeEncode hasPrefix:idEncode];
+            info.typeSize = methodSig.methodReturnLength;
+            info.customTransformer = [self respondsToSelector:customTransformerSel] ? customTransformerSel : (SEL)0;
+            [[self serializableKeyInfos] setObject:info forKey:selName];
         }
     }
 }
@@ -48,16 +67,31 @@ static char* kSerializableKeyKey;
     [self registerAllKeyProtocols];
 }
 
++ (instancetype)modelWithDictionary:(NSDictionary *)dictionary
+{
+    YAModel *model = [self new];
+    [model ya_setupWithDictionary:dictionary];
+    return model;
+}
+
++ (NSArray *)modelsWithArray:(NSArray *)array modelCls:(Class)cls
+{
+    NSMutableArray *models = [NSMutableArray array];
+    for (NSDictionary *model in array) {
+        [models addObject:[cls modelWithDictionary:model]];
+    }
+    return [models copy];
+}
+
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
-    NSString *idEncode = [NSString stringWithUTF8String:@encode(id)];
-    [[self.class serializableKeyInfos] enumerateKeysAndObjectsUsingBlock:^(NSString *sel, NSString *typeEncode, BOOL *stop) {
+    [[self.class serializableKeyInfos] enumerateKeysAndObjectsUsingBlock:^(NSString *sel, YASerializableKeyInfo *info, BOOL *stop) {
         id object = [aDecoder decodeObjectForKey:sel];
-        if([typeEncode hasPrefix:idEncode]) {
+        if(info.isObject) {
             [self setValue:object forKey:sel];
         } else {
             NSData *data = object;
-            NSValue *value = [NSValue value:data.bytes withObjCType:typeEncode.UTF8String];
+            NSValue *value = [NSValue value:data.bytes withObjCType:info.typeEncode.UTF8String];
             [self setValue:value forKey:sel];
         }
     }];
@@ -66,14 +100,13 @@ static char* kSerializableKeyKey;
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-    NSString *idEncode = [NSString stringWithUTF8String:@encode(id)];
-    [[self.class serializableKeyInfos] enumerateKeysAndObjectsUsingBlock:^(NSString *sel, NSString *typeEncode, BOOL *stop) {
+    [[self.class serializableKeyInfos] enumerateKeysAndObjectsUsingBlock:^(NSString *sel, YASerializableKeyInfo *info, BOOL *stop) {
         id object = [self valueForKey:sel];
-        if([typeEncode hasPrefix:idEncode]) {
+        if(info.isObject) {
             [aCoder encodeObject:object forKey:sel];
         } else {
             NSValue *value = object;
-            NSUInteger valueSize = [self sizeofType:typeEncode.UTF8String];
+            NSUInteger valueSize = info.typeSize;
             char buf[valueSize];
             memset(buf, 0, valueSize);
             if(@available(iOS 11.0, *)) {
@@ -87,10 +120,23 @@ static char* kSerializableKeyKey;
     }];
 }
 
-- (NSUInteger)sizeofType:(const char*)typeEncode
+- (void)ya_setupWithDictionary:(NSDictionary *)dictionary
 {
-    NSMethodSignature *methodSig = [NSMethodSignature signatureWithObjCTypes:[NSString stringWithFormat:@"%s@:", typeEncode].UTF8String];
-    return methodSig.methodReturnLength;
+    [dictionary enumerateKeysAndObjectsUsingBlock:^(NSString *key, id value, BOOL *stop) {
+        YASerializableKeyInfo *info = [[self.class serializableKeyInfos] objectForKey:key];
+        if(!info) return;
+        id realValue = info.customTransformer ? ((id (*)(id, SEL, id))objc_msgSend)((id)self.class, info.customTransformer, value) : value;
+        if(info.isObject) {
+            NSObject *target = [self valueForKey:key];
+            if([target isKindOfClass:[YAModel class]]) {
+                ((void (*)(id, SEL, id))objc_msgSend)(target, @selector(ya_setupWithDictionary:), realValue);
+            } else {
+                [self setValue:realValue forKey:key];
+            }
+        } else {
+            [self setValue:realValue forKey:key];
+        }
+    }];
 }
 
 @end

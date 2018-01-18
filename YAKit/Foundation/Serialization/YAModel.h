@@ -14,4 +14,7 @@
 
 @interface YAModel : NSObject <YAModel, NSCoding>
 
++ (instancetype)modelWithDictionary:(NSDictionary *)dictionary;
++ (NSArray *)modelsWithArray:(NSArray *)array modelCls:(Class)cls;
+
 @end
