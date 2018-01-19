@@ -15,8 +15,8 @@ typedef enum : NSUInteger {
 
 @interface YAMMapFile : NSObject
 
-@property (nonatomic, assign, readonly) NSUInteger size;
-@property (nonatomic, assign, readonly) char* base;
+@property (nonatomic, assign, readonly) size_t size;
+@property (nonatomic, assign, readonly) const char* base;
 
 - (instancetype)initWithFilePath:(NSString *)path openMode:(YAMMapFileOpenMode)mode;
 - (instancetype)initWithFilePath:(NSString *)path size:(size_t)size openMode:(YAMMapFileOpenMode)mode;

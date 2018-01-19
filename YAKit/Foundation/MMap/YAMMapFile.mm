@@ -40,6 +40,16 @@
     delete _mmapFile;
 }
 
+- (size_t)size
+{
+    return _mmapFile->size();
+}
+
+- (const char *)base
+{
+    return _mmapFile->mmapBase();
+}
+
 - (BOOL)write:(const char*)data size:(size_t)size offset:(off_t)offset
 {
     return _mmapFile->write(data, size, offset);
