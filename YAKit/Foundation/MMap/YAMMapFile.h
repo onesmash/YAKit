@@ -19,11 +19,11 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign, readonly) char* base;
 
 - (instancetype)initWithFilePath:(NSString *)path openMode:(YAMMapFileOpenMode)mode;
-- (instancetype)initWithFilePath:(NSString *)path size:(NSUInteger)size openMode:(YAMMapFileOpenMode)mode;
+- (instancetype)initWithFilePath:(NSString *)path size:(size_t)size openMode:(YAMMapFileOpenMode)mode;
 
-- (BOOL)write:(const char*)data size:(NSUInteger)size offset:(NSUInteger)offset;
-- (BOOL)append:(const char*)data size:(NSUInteger)size;
-- (const char*)read:(NSUInteger)size offset:(NSUInteger)offset;
+- (BOOL)write:(const char*)data size:(size_t)size offset:(off_t)offset;
+- (BOOL)append:(const char*)data size:(size_t)size;
+- (const char*)read:(size_t)size offset:(off_t)offset;
 
 - (BOOL)flush:(BOOL)async;
 

@@ -25,7 +25,7 @@
     return self;
 }
 
-- (instancetype)initWithFilePath:(NSString *)path size:(NSUInteger)size openMode:(YAMMapFileOpenMode)mode
+- (instancetype)initWithFilePath:(NSString *)path size:(size_t)size openMode:(YAMMapFileOpenMode)mode
 {
     self = [self init];
     if(self) {
@@ -40,17 +40,17 @@
     delete _mmapFile;
 }
 
-- (BOOL)write:(const char*)data size:(NSUInteger)size offset:(NSUInteger)offset
+- (BOOL)write:(const char*)data size:(size_t)size offset:(off_t)offset
 {
     return _mmapFile->write(data, size, offset);
 }
 
-- (BOOL)append:(const char*)data size:(NSUInteger)size
+- (BOOL)append:(const char*)data size:(size_t)size
 {
     return _mmapFile->append(data, size);
 }
 
-- (const char*)read:(NSUInteger)size offset:(NSUInteger)offset
+- (const char*)read:(size_t)size offset:(off_t)offset
 {
     return _mmapFile->read(size, offset);
 }
