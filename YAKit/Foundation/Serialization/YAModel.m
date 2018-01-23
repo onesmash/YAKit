@@ -13,6 +13,7 @@ static char* kSerializableKeyKey;
 
 @interface YASerializableKeyInfo : NSObject
 @property (nonatomic, assign) BOOL isObject;
+@property (nonatomic, assign) BOOL isStruct;
 @property (nonatomic, copy) NSString *typeEncode;
 @property (nonatomic, assign) NSUInteger typeSize;
 @property (nonatomic, assign) SEL customTransformer;
@@ -50,6 +51,9 @@ static char* kSerializableKeyKey;
             YASerializableKeyInfo *info = [[YASerializableKeyInfo alloc] init];
             info.typeEncode = [NSString stringWithUTF8String:methodSig.methodReturnType];
             info.isObject = [info.typeEncode hasPrefix:idEncode];
+            if(!info.isObject) {
+                info.isStruct = [info.typeEncode hasPrefix:@"{"];
+            }
             info.typeSize = methodSig.methodReturnLength;
             info.customTransformer = [self respondsToSelector:customTransformerSel] ? customTransformerSel : (SEL)0;
             [[self serializableKeyInfos] setObject:info forKey:selName];
@@ -91,7 +95,73 @@ static char* kSerializableKeyKey;
             [self setValue:object forKey:sel];
         } else {
             NSData *data = object;
-            NSValue *value = [NSValue value:data.bytes withObjCType:info.typeEncode.UTF8String];
+            NSValue *value;
+            if(!info.isStruct) {
+                do {
+                    if([info.typeEncode isEqualToString:@(@encode(char))]) {
+                        value = [NSNumber numberWithChar:*(char *)data.bytes];
+                        break;
+                    }
+                    if([info.typeEncode isEqualToString:@(@encode(unsigned char))]) {
+                        value = [NSNumber numberWithUnsignedChar:*(unsigned char *)data.bytes];
+                        break;
+                    }
+                    if([info.typeEncode isEqualToString:@(@encode(short))]) {
+                        value = [NSNumber numberWithShort:*(short *)data.bytes];
+                        break;
+                    }
+                    if([info.typeEncode isEqualToString:@(@encode(unsigned short))]) {
+                        value = [NSNumber numberWithUnsignedShort:*(unsigned short *)data.bytes];
+                        break;
+                    }
+                    if([info.typeEncode isEqualToString:@(@encode(int))]) {
+                        value = [NSNumber numberWithInt:*(int *)data.bytes];
+                        break;
+                    }
+                    if([info.typeEncode isEqualToString:@(@encode(unsigned int))]) {
+                        value = [NSNumber numberWithUnsignedInt:*(unsigned int *)data.bytes];
+                        break;
+                    }
+                    if([info.typeEncode isEqualToString:@(@encode(long))]) {
+                        value = [NSNumber numberWithLong:*(long *)data.bytes];
+                        break;
+                    }
+                    if([info.typeEncode isEqualToString:@(@encode(unsigned long))]) {
+                        value = [NSNumber numberWithUnsignedLong:*(unsigned long *)data.bytes];
+                        break;
+                    }
+                    if([info.typeEncode isEqualToString:@(@encode(long long))]) {
+                        value = [NSNumber numberWithLongLong:*(long long *)data.bytes];
+                        break;
+                    }
+                    if([info.typeEncode isEqualToString:@(@encode(unsigned long long))]) {
+                        value = [NSNumber numberWithUnsignedLongLong:*(unsigned long long *)data.bytes];
+                        break;
+                    }
+                    if([info.typeEncode isEqualToString:@(@encode(float))]) {
+                        value = [NSNumber numberWithFloat:*(float *)data.bytes];
+                        break;
+                    }
+                    if([info.typeEncode isEqualToString:@(@encode(double))]) {
+                        value = [NSNumber numberWithDouble:*(double *)data.bytes];
+                        break;
+                    }
+                    if([info.typeEncode isEqualToString:@(@encode(BOOL))]) {
+                        value = [NSNumber numberWithBool:*(BOOL *)data.bytes];
+                        break;
+                    }
+                    if([info.typeEncode isEqualToString:@(@encode(NSInteger))]) {
+                        value = [NSNumber numberWithInteger:*(NSInteger *)data.bytes];
+                        break;
+                    }
+                    if([info.typeEncode isEqualToString:@(@encode(NSUInteger))]) {
+                        value = [NSNumber numberWithUnsignedInteger:*(NSUInteger *)data.bytes];
+                        break;
+                    }
+                } while(false);
+            } else {
+                value = [NSValue value:data.bytes withObjCType:info.typeEncode.UTF8String];
+            }
             [self setValue:value forKey:sel];
         }
     }];
