@@ -45,7 +45,7 @@ public:
     
     bool flush(bool aync = true);
     
-    size_t size() const { return size_; }
+    size_t size() const { return map_size_; }
     
     const char* mmapBase() const { return mmap_base_; }
 private:
