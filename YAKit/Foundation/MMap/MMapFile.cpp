@@ -108,7 +108,7 @@ bool MMapFile::open(const string& filePath, Mode mode, AccessMode accessMode, si
     if(mode == ModeRead) {
         size = file_size;
     } else {
-        size = size ? size : file_size;
+        size = size > 0 ? size : file_size;
     }
     
     lseek(fd_, 0, SEEK_SET);

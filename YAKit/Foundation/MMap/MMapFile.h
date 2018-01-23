@@ -33,7 +33,7 @@ public:
     
     MMapFile& operator=(MMapFile&& mapFile);
     
-    bool open(const std::string& file, Mode mode = ModeRead, AccessMode accessMode = AccessModeNormal, size_t size = 4096 * 2);
+    bool open(const std::string& file, Mode mode = ModeRead, AccessMode accessMode = AccessModeNormal, size_t size = 0);
     
     bool write(const char* src, size_t size, off_t offset);
     
