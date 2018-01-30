@@ -10,11 +10,14 @@
 @protocol YAModel <NSObject>
 + (void)registerAllKeyProtocols;
 + (void)registerKeyProtocol:(Protocol *)proto;
++ (instancetype)modelWithDictionary:(NSDictionary *)dictionary;
++ (NSArray *)modelsWithArray:(NSArray *)array modelCls:(Class)cls;
+- (NSDictionary *)dictionaryModel;
+@optional
+- (void)customFormDictionaryTransformer:(NSDictionary *)dict;
+- (void)customToDictionaryTransformer:(NSMutableDictionary *)dict;
 @end
 
 @interface YAModel : NSObject <YAModel, NSCoding>
-
-+ (instancetype)modelWithDictionary:(NSDictionary *)dictionary;
-+ (NSArray *)modelsWithArray:(NSArray *)array modelCls:(Class)cls;
 
 @end

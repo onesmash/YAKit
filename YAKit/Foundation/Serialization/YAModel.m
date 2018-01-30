@@ -15,7 +15,6 @@ static char* kSerializableKeyKey;
 @property (nonatomic, assign) BOOL isObject;
 @property (nonatomic, copy) NSString *typeEncode;
 @property (nonatomic, assign) NSUInteger typeSize;
-@property (nonatomic, assign) SEL customTransformer;
 @end
 
 @implementation YASerializableKeyInfo
@@ -98,12 +97,10 @@ static char* kSerializableKeyKey;
             continue;
         } else {
             NSString *selName = NSStringFromSelector(methodDesc->name);
-            SEL customTransformerSel = NSSelectorFromString([NSString stringWithFormat:@"%@Transformer:", selName]);
             YASerializableKeyInfo *info = [[YASerializableKeyInfo alloc] init];
             info.typeEncode = [NSString stringWithUTF8String:methodSig.methodReturnType];
             info.isObject = [info.typeEncode hasPrefix:idEncode] || [self propertyIsNUmber:info];
             info.typeSize = methodSig.methodReturnLength;
-            info.customTransformer = [self respondsToSelector:customTransformerSel] ? customTransformerSel : (SEL)0;
             [[self serializableKeyInfos] setObject:info forKey:selName];
         }
     }
@@ -177,18 +174,37 @@ static char* kSerializableKeyKey;
     [dictionary enumerateKeysAndObjectsUsingBlock:^(NSString *key, id value, BOOL *stop) {
         YASerializableKeyInfo *info = [[self.class serializableKeyInfos] objectForKey:key];
         if(!info) return;
-        id realValue = info.customTransformer ? ((id (*)(id, SEL, id))objc_msgSend)((id)self.class, info.customTransformer, value) : value;
         if(info.isObject) {
             NSObject *target = [self valueForKey:key];
             if([target isKindOfClass:[YAModel class]]) {
-                ((void (*)(id, SEL, id))objc_msgSend)(target, @selector(ya_setupWithDictionary:), realValue);
+                ((void (*)(id, SEL, id))objc_msgSend)(target, @selector(ya_setupWithDictionary:), value);
             } else {
-                [self setValue:realValue forKey:key];
+                [self setValue:value forKey:key];
             }
         } else {
-            [self setValue:realValue forKey:key];
+            [self setValue:value forKey:key];
         }
     }];
+    if([self respondsToSelector:@selector(customFormDictionaryTransformer:)]) {
+        [self customFormDictionaryTransformer:dictionary];
+    }
+}
+
+- (NSDictionary *)dictionaryModel
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    [[self.class serializableKeyInfos] enumerateKeysAndObjectsUsingBlock:^(NSString *sel, YASerializableKeyInfo *info, BOOL *stop) {
+        NSObject *object = [self valueForKey:sel];
+        if(info.isObject && [object isKindOfClass:[YAModel class]]) {
+            [dict setObject:((id (*)(id, SEL))objc_msgSend)(object, @selector(dictionaryModel)) forKey:sel];
+        } else {
+            [dict setObject:object forKey:sel];
+        }
+    }];
+    if([self respondsToSelector:@selector(customToDictionaryTransformer:)]) {
+        [self customToDictionaryTransformer:dict];
+    }
+    return [dict copy];
 }
 
 @end
