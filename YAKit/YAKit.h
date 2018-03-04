@@ -13,5 +13,7 @@
 #import "YAVCPresenterProtocol.h"
 #import "YAComponent.h"
 #import "YAModel.h"
+#import "NSString+YA.h"
+
 
 

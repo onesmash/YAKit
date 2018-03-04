@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "YAKit"
-  s.version      = "0.1.4"
+  s.version      = "0.1.5"
   s.summary      = "YAKit"
 
   s.description  = <<-DESC
@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
 
   s.source_files  = "YAKit", "YAKit/**/*.{h,m,mm,cpp}"
 
-  s.public_header_files = ["YAKit/YAKit.h", "YAKit/Foundation/Architecture/NSObject+YAComponent.h", "YAKit/Foundation/Architecture/YAComponentProtocol.h", "YAKit/Foundation/Architecture/YAComponent.h", "YAKit/UIKit/Presenter/YAViewPresenterProtocol.h", "YAKit/UIKit/Presenter/YAVCPresenterProtocol.h", "YAKit/Foundation/Serialization/YAModel.h", "YAKit/Foundation/Observe/NSObject+YAObserve.h", "YAKit/Foundation/MMap/YAMMapFile.h"]
+  s.public_header_files = ["YAKit/YAKit.h", "YAKit/Foundation/Architecture/NSObject+YAComponent.h", "YAKit/Foundation/Architecture/YAComponentProtocol.h", "YAKit/Foundation/Architecture/YAComponent.h", "YAKit/UIKit/Presenter/YAViewPresenterProtocol.h", "YAKit/UIKit/Presenter/YAVCPresenterProtocol.h", "YAKit/Foundation/Serialization/YAModel.h", "YAKit/Foundation/Observe/NSObject+YAObserve.h", "YAKit/Foundation/MMap/YAMMapFile.h", "YAKit/Foundation/Category/NSString+YA.h"]
 
   s.libraries = 'c++'
 
