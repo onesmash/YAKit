@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "YAKit"
-  s.version      = "0.1.5"
+  s.version      = "0.1.6"
   s.summary      = "YAKit"
 
   s.description  = <<-DESC
@@ -13,7 +13,7 @@ Pod::Spec.new do |s|
 
   s.author             = "good122000@qq.com"
 
-  s.platform     = :ios, "9.0"
+  s.platform     = :ios, "8.0"
   s.source       = { :git => "https://github.com/onesmash/YAKit.git", :tag => "#{s.version}" }
 
   s.source_files  = "YAKit", "YAKit/**/*.{h,m,mm,cpp}"
