@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "YAViewPresenterRequiredProtocol.h"
 
-@interface UIView (YAPresenter)
+@interface UIView (YAPresenter) <YAViewPresenterRequiredProtocol>
 
 @end
