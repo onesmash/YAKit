@@ -13,7 +13,6 @@
 		031680A420075AEE00893A93 /* UIView+YAPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 031680A320075AEE00893A93 /* UIView+YAPresenter.m */; };
 		031680A720075B0200893A93 /* UIViewController+YAPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 031680A620075B0200893A93 /* UIViewController+YAPresenter.m */; };
 		03C0892520086303009566B4 /* NSObject+YASwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 03C0892420086303009566B4 /* NSObject+YASwizzle.m */; };
-		03EF4D71204C446100B1C99E /* NSString+YA.m in Sources */ = {isa = PBXBuildFile; fileRef = 03EF4D70204C446100B1C99E /* NSString+YA.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -45,8 +44,6 @@
 		031680A620075B0200893A93 /* UIViewController+YAPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+YAPresenter.m"; sourceTree = "<group>"; };
 		03C0892320086303009566B4 /* NSObject+YASwizzle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+YASwizzle.h"; sourceTree = "<group>"; };
 		03C0892420086303009566B4 /* NSObject+YASwizzle.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+YASwizzle.m"; sourceTree = "<group>"; };
-		03EF4D6F204C446100B1C99E /* NSString+YA.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+YA.h"; sourceTree = "<group>"; };
-		03EF4D70204C446100B1C99E /* NSString+YA.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+YA.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,7 +86,6 @@
 		031680922007564200893A93 /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
-				03EF4D6B204C443400B1C99E /* Categoty */,
 				03C08922200862E5009566B4 /* Swizzle */,
 				03168096200756C000893A93 /* Architecture */,
 			);
@@ -136,15 +132,6 @@
 				03C0892420086303009566B4 /* NSObject+YASwizzle.m */,
 			);
 			path = Swizzle;
-			sourceTree = "<group>";
-		};
-		03EF4D6B204C443400B1C99E /* Categoty */ = {
-			isa = PBXGroup;
-			children = (
-				03EF4D6F204C446100B1C99E /* NSString+YA.h */,
-				03EF4D70204C446100B1C99E /* NSString+YA.m */,
-			);
-			path = Categoty;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -205,7 +192,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				03C0892520086303009566B4 /* NSObject+YASwizzle.m in Sources */,
-				03EF4D71204C446100B1C99E /* NSString+YA.m in Sources */,
 				03168099200756C000893A93 /* NSObject+YAComponent.m in Sources */,
 				031680A420075AEE00893A93 /* UIView+YAPresenter.m in Sources */,
 				0316809D2007598800893A93 /* YAComponent.m in Sources */,
