@@ -7,11 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		030AC3E520527A3D0095C5D1 /* UITableView+YA.m in Sources */ = {isa = PBXBuildFile; fileRef = 030AC3E420527A3D0095C5D1 /* UITableView+YA.m */; };
 		0316808C20070DB800893A93 /* YAKit.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 0316808920070DB800893A93 /* YAKit.h */; };
 		03168099200756C000893A93 /* NSObject+YAComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 03168098200756C000893A93 /* NSObject+YAComponent.m */; };
 		0316809D2007598800893A93 /* YAComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 0316809C2007598800893A93 /* YAComponent.m */; };
 		031680A420075AEE00893A93 /* UIView+YAPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 031680A320075AEE00893A93 /* UIView+YAPresenter.m */; };
 		031680A720075B0200893A93 /* UIViewController+YAPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 031680A620075B0200893A93 /* UIViewController+YAPresenter.m */; };
+		0346B7002052710000B4ACEF /* NSObject+YAObserve.m in Sources */ = {isa = PBXBuildFile; fileRef = 0346B6FF2052710000B4ACEF /* NSObject+YAObserve.m */; };
 		0383C5332050DA2900BAC5A5 /* NSString+YA.m in Sources */ = {isa = PBXBuildFile; fileRef = 0383C5322050DA2900BAC5A5 /* NSString+YA.m */; };
 		0383C5392050DFCF00BAC5A5 /* YATableVCPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0383C5382050DFCF00BAC5A5 /* YATableVCPresenter.m */; };
 		0383C53D2050E45500BAC5A5 /* YATableCellPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0383C53C2050E45500BAC5A5 /* YATableCellPresenter.m */; };
@@ -24,6 +26,7 @@
 		0383C55820512D7500BAC5A5 /* YAMatrix2DataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 0383C55720512D7500BAC5A5 /* YAMatrix2DataSource.m */; };
 		0383C55E2051302B00BAC5A5 /* YAMatrix2DataOpTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = 0383C55D2051302B00BAC5A5 /* YAMatrix2DataOpTrack.m */; };
 		03C0892520086303009566B4 /* NSObject+YASwizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 03C0892420086303009566B4 /* NSObject+YASwizzle.m */; };
+		C6B99C3F673695CA5A1EEACC /* libPods-YAKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 14FD89C96FE47B9D6951AF90 /* libPods-YAKit.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -40,6 +43,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		030AC3E320527A3D0095C5D1 /* UITableView+YA.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UITableView+YA.h"; sourceTree = "<group>"; };
+		030AC3E420527A3D0095C5D1 /* UITableView+YA.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UITableView+YA.m"; sourceTree = "<group>"; };
 		0316808620070DB800893A93 /* libYAKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libYAKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		0316808920070DB800893A93 /* YAKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YAKit.h; sourceTree = "<group>"; };
 		03168097200756C000893A93 /* NSObject+YAComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+YAComponent.h"; sourceTree = "<group>"; };
@@ -53,6 +58,8 @@
 		031680A320075AEE00893A93 /* UIView+YAPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+YAPresenter.m"; sourceTree = "<group>"; };
 		031680A520075B0200893A93 /* UIViewController+YAPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+YAPresenter.h"; sourceTree = "<group>"; };
 		031680A620075B0200893A93 /* UIViewController+YAPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+YAPresenter.m"; sourceTree = "<group>"; };
+		0346B6FE2052710000B4ACEF /* NSObject+YAObserve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+YAObserve.h"; sourceTree = "<group>"; };
+		0346B6FF2052710000B4ACEF /* NSObject+YAObserve.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+YAObserve.m"; sourceTree = "<group>"; };
 		0383C5312050DA2900BAC5A5 /* NSString+YA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+YA.h"; sourceTree = "<group>"; };
 		0383C5322050DA2900BAC5A5 /* NSString+YA.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+YA.m"; sourceTree = "<group>"; };
 		0383C5342050DA8E00BAC5A5 /* YAMVPProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YAMVPProtocol.h; sourceTree = "<group>"; };
@@ -85,6 +92,9 @@
 		0383C55D2051302B00BAC5A5 /* YAMatrix2DataOpTrack.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YAMatrix2DataOpTrack.m; sourceTree = "<group>"; };
 		03C0892320086303009566B4 /* NSObject+YASwizzle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+YASwizzle.h"; sourceTree = "<group>"; };
 		03C0892420086303009566B4 /* NSObject+YASwizzle.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+YASwizzle.m"; sourceTree = "<group>"; };
+		0F4F62CFE70A69659C16A76B /* Pods-YAKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YAKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-YAKit/Pods-YAKit.release.xcconfig"; sourceTree = "<group>"; };
+		14FD89C96FE47B9D6951AF90 /* libPods-YAKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-YAKit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		750696E37EA9EF8F40963F3A /* Pods-YAKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YAKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YAKit/Pods-YAKit.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +102,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C6B99C3F673695CA5A1EEACC /* libPods-YAKit.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -103,6 +114,8 @@
 			children = (
 				0316808820070DB800893A93 /* YAKit */,
 				0316808720070DB800893A93 /* Products */,
+				9B5FDAEEA59B344FFE652563 /* Pods */,
+				14F5F80AC9C6834B50B9A73B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -127,6 +140,7 @@
 		031680922007564200893A93 /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
+				0346B6FD2052710000B4ACEF /* Observe */,
 				0383C5302050DA2900BAC5A5 /* Category */,
 				03C08922200862E5009566B4 /* Swizzle */,
 				03168096200756C000893A93 /* Architecture */,
@@ -191,6 +205,15 @@
 			path = Presenter;
 			sourceTree = "<group>";
 		};
+		0346B6FD2052710000B4ACEF /* Observe */ = {
+			isa = PBXGroup;
+			children = (
+				0346B6FE2052710000B4ACEF /* NSObject+YAObserve.h */,
+				0346B6FF2052710000B4ACEF /* NSObject+YAObserve.m */,
+			);
+			path = Observe;
+			sourceTree = "<group>";
+		};
 		0383C5302050DA2900BAC5A5 /* Category */ = {
 			isa = PBXGroup;
 			children = (
@@ -205,6 +228,8 @@
 			children = (
 				0383C541205106AA00BAC5A5 /* UIView+YA.h */,
 				0383C542205106AA00BAC5A5 /* UIView+YA.m */,
+				030AC3E320527A3D0095C5D1 /* UITableView+YA.h */,
+				030AC3E420527A3D0095C5D1 /* UITableView+YA.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -229,6 +254,23 @@
 			path = Swizzle;
 			sourceTree = "<group>";
 		};
+		14F5F80AC9C6834B50B9A73B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				14FD89C96FE47B9D6951AF90 /* libPods-YAKit.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9B5FDAEEA59B344FFE652563 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				750696E37EA9EF8F40963F3A /* Pods-YAKit.debug.xcconfig */,
+				0F4F62CFE70A69659C16A76B /* Pods-YAKit.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -236,9 +278,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0316808F20070DB800893A93 /* Build configuration list for PBXNativeTarget "YAKit" */;
 			buildPhases = (
+				2FA91E353848472E228D8308 /* [CP] Check Pods Manifest.lock */,
 				0316808220070DB800893A93 /* Sources */,
 				0316808320070DB800893A93 /* Frameworks */,
 				0316808420070DB800893A93 /* CopyFiles */,
+				437A389E3FD9A2CD8107D28D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -281,6 +325,42 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		2FA91E353848472E228D8308 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-YAKit-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		437A389E3FD9A2CD8107D28D /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YAKit/Pods-YAKit-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		0316808220070DB800893A93 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -295,9 +375,11 @@
 				0316809D2007598800893A93 /* YAComponent.m in Sources */,
 				0383C5392050DFCF00BAC5A5 /* YATableVCPresenter.m in Sources */,
 				0383C543205106AA00BAC5A5 /* UIView+YA.m in Sources */,
+				0346B7002052710000B4ACEF /* NSObject+YAObserve.m in Sources */,
 				0383C546205109DF00BAC5A5 /* YATableViewPresenter.m in Sources */,
 				0383C5502051154A00BAC5A5 /* YACollectionViewPresenter.m in Sources */,
 				0383C54920510A8400BAC5A5 /* YAViewPresenter.m in Sources */,
+				030AC3E520527A3D0095C5D1 /* UITableView+YA.m in Sources */,
 				0383C55820512D7500BAC5A5 /* YAMatrix2DataSource.m in Sources */,
 				031680A720075B0200893A93 /* UIViewController+YAPresenter.m in Sources */,
 				0383C54D2051153100BAC5A5 /* YACollectionVCPresenter.m in Sources */,
@@ -414,6 +496,7 @@
 		};
 		0316809020070DB800893A93 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 750696E37EA9EF8F40963F3A /* Pods-YAKit.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SAH4Y68J6G;
@@ -426,6 +509,7 @@
 		};
 		0316809120070DB800893A93 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0F4F62CFE70A69659C16A76B /* Pods-YAKit.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = SAH4Y68J6G;

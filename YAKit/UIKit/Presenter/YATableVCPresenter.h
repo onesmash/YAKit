@@ -7,15 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "YAComponent.h"
+#import "YAViewPresenter.h"
 #import "YARoutingProtocol.h"
 #import "YAVCPresenterProtocol.h"
 #import "YATableViewPresenterProtocol.h"
 
-@protocol YATableVCPresenterRequiredProtocol <YARoutingProtocol>
+@protocol YATableVCPresenterRequiredProtocol <YAViewPresenterRequiredProtocol, YARoutingProtocol>
 @property (nonatomic, readonly) UITableView *tableView;
 @end
 
-@interface YATableVCPresenter : YAComponent <YAVCPresenterProtocol, YATableViewPresenterProtocol, UITableViewDelegate, UITableViewDataSource>
+@interface YATableVCPresenter : YAViewPresenter <YAVCPresenterProtocol, YATableViewPresenterProtocol, UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, weak) id<YATableVCPresenterRequiredProtocol> delegate;
 @end

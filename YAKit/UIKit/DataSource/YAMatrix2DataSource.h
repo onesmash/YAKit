@@ -7,16 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "YAMatrix2DataOpTrack.h"
 
 @protocol YAMatrix2DataSource <NSObject>
-- (void)insertData:(id)data at:(NSIndexPath *)indexPath;
-- (void)addData:(NSArray *)data at:(NSInteger)section;
-- (void)deleteDataAt:(NSSet<NSIndexPath *> *)indexPaths;
-- (void)updateDataAt:(NSSet<NSIndexPath *> *)indexPaths;
-- (void)moveDataFrom:(NSIndexPath *)from to:(NSIndexPath *)to;
+- (YAMatrix2DataOpTrack *)insertData:(id)data at:(NSIndexPath *)indexPath;
+- (NSArray<YAMatrix2DataOpTrack *> *)addData:(NSArray *)datas at:(NSInteger)section;
+- (NSArray<YAMatrix2DataOpTrack *> *)deleteDataAt:(NSSet<NSIndexPath *> *)indexPaths;
+- (YAMatrix2DataOpTrack *)deleteDataAtSection:(NSInteger)section;
+- (NSArray<YAMatrix2DataOpTrack *> *)updateDataAt:(NSSet<NSIndexPath *> *)indexPaths;
+- (YAMatrix2DataOpTrack *)moveDataFrom:(NSIndexPath *)from to:(NSIndexPath *)to;
 - (NSArray *)dataAtSection:(NSInteger)section;
 - (id)dataAtIndexPath:(NSIndexPath *)indexPath;
-- (void)batchDataUpdate:(void(^)(void))updateBlock completion:(void(^)(void))completionBlock;
 @end
 
 @interface YAMatrix2DataSource : NSObject <YAMatrix2DataSource>

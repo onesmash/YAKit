@@ -10,9 +10,11 @@
 #import "UIView+YA.h"
 #import "YAMVPProtocol.h"
 #import "YACellPresenterProtocol.h"
+#import "YATableViewPresenter.h"
 
 @interface YATableVCPresenter ()
-
+@property (nonatomic, strong) NSMutableArray<NSArray<YAMatrix2DataOpTrack *> *> *pendingUpdateOps;
+@property (nonatomic, assign) BOOL updating;
 @end
 
 @implementation YATableVCPresenter
@@ -22,6 +24,12 @@
 - (Protocol *)requiredProtocol
 {
     return @protocol(YATableVCPresenterRequiredProtocol);
+}
+
+- (void)onComponentAttached
+{
+    _pendingUpdateOps = [NSMutableArray array];
+    _updating = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -114,6 +122,16 @@
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return 0;
+}
+
+- (void)batchUpdate:(NSArray<YAMatrix2DataOpTrack *> *)tracks
+{
+    if(!self.updating) {
+        self.updating = YES;
+        
+    } else {
+        [self.pendingUpdateOps addObject:tracks];
+    }
 }
 
 @end

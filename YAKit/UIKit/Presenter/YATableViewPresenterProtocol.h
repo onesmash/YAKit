@@ -10,6 +10,7 @@
 #define YATableViewPresenterProtocol_h
 
 #import <UIKit/UIKit.h>
+#import "YAMatrix2DataOpTrack.h"
 #import "YAScrollViewPresenterProtocol.h"
 
 @protocol YATableViewPresenterProtocol <YAScrollViewPresenterProtocol>
@@ -17,6 +18,7 @@
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section;
+- (void)batchUpdate:(NSArray<YAMatrix2DataOpTrack *> *)tracks;
 @end
 
 #endif /* YATableViewPresenterProtocol_h */

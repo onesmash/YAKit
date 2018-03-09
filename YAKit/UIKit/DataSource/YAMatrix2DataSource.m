@@ -8,10 +8,10 @@
 
 #import "YAMatrix2DataSource.h"
 #import "YAMatrix2DataOpTrack.h"
+#import <UIKit/UIKit.h>
 
 @interface YAMatrix2DataSource ()
 @property (nonatomic, strong) NSMutableArray<NSMutableArray *> *store;
-@property (nonatomic, strong) NSMutableArray<YAMatrix2DataOpTrack *> *opBatch;
 @end
 
 @implementation YAMatrix2DataSource
@@ -25,60 +25,134 @@
     return self;
 }
 
-- (void)insertData:(id)data at:(NSIndexPath *)indexPath
+- (YAMatrix2DataOpTrack *)insertData:(id)data at:(NSIndexPath *)indexPath
 {
-    YAMatrix2DataOpTrack *track = [YAMatrix2DataOpTrack opTrack:YAMatrix2DataTrackOperationAdd data:data pos:indexPath to:nil];
-    [self addDataOp:track];
+    YAMatrix2DataOpTrack *track = [YAMatrix2DataOpTrack addOpTrackData:data pos:indexPath];
+    [self excuteDataOp:track];
+    return track;
 }
 
-- (void)addData:(NSArray *)datas at:(NSInteger)section
+- (NSArray<YAMatrix2DataOpTrack *> *)addData:(NSArray *)datas at:(NSInteger)section
 {
-    //NSInteger index =
-    for (id data in datas) {
-        
+    if(section > self.store.count) return nil;
+    if(section == self.store.count) {
+        [self.store addObject:[NSMutableArray array]];
+        YAMatrix2DataOpTrack *track = [YAMatrix2DataOpTrack sectionAddOpTrackData:datas section:section];
+        [self excuteDataOp:track];
+        return @[track];
+    } else {
+        NSMutableArray<YAMatrix2DataOpTrack *> *tracks = [NSMutableArray array];
+        for (id data in datas) {
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.store objectAtIndex:section].count inSection:section];
+            YAMatrix2DataOpTrack *track = [YAMatrix2DataOpTrack addOpTrackData:data pos:indexPath];
+            [self excuteDataOp:track];
+            [tracks addObject:track];
+        }
+        return tracks;
     }
 }
 
-- (void)deleteDataAt:(NSSet<NSIndexPath *> *)indexPaths
+- (NSArray<YAMatrix2DataOpTrack *> *)deleteDataAt:(NSSet<NSIndexPath *> *)indexPaths
 {
-    
+    NSMutableArray<YAMatrix2DataOpTrack *> *tracks = [NSMutableArray array];
+    for (NSIndexPath *indexPath in indexPaths) {
+        YAMatrix2DataOpTrack *track = [YAMatrix2DataOpTrack deleteOpTrackAtPos:indexPath];
+        [self excuteDataOp:track];
+        [tracks addObject:track];
+    }
+    return tracks;
+}
+
+- (YAMatrix2DataOpTrack *)deleteDataAtSection:(NSInteger)section
+{
+    YAMatrix2DataOpTrack *track = [YAMatrix2DataOpTrack sectionDeleteOpTrackAtSection:section];
+    [self excuteDataOp:track];
+    return track;
 }
 
 - (NSArray *)dataAtSection:(NSInteger)section
 {
-    
+    return [self.store objectAtIndex:section];
 }
 
 - (id)dataAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    return [[self.store objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
 }
 
-- (void)updateDataAt:(NSSet<NSIndexPath *> *)indexPaths
+- (NSArray<YAMatrix2DataOpTrack *> *)updateDataAt:(NSSet<NSIndexPath *> *)indexPaths
 {
-    
-}
-
-- (void)moveDataFrom:(NSIndexPath *)from to:(NSIndexPath *)to
-{
-    
-}
-
-- (void)batchDataUpdate:(void(^)(void))updateBlock completion:(void(^)(void))completionBlock
-{
-    
-}
-
-- (void)addDataOp:(YAMatrix2DataOpTrack *)opTrack
-{
-    if(self.opBatch != nil) {
-        [self.opBatch addObject:opTrack];
-    } else {
-        [self excuteDataOp:opTrack];
+    NSMutableArray<YAMatrix2DataOpTrack *> *tracks = [NSMutableArray array];
+    for (NSIndexPath *indexPath in indexPaths) {
+        YAMatrix2DataOpTrack *track = [YAMatrix2DataOpTrack updateOpTrackAt:indexPath];
+        [self excuteDataOp:track];
+        [tracks addObject:track];
     }
+    return tracks;
+}
+
+- (YAMatrix2DataOpTrack *)moveDataFrom:(NSIndexPath *)from to:(NSIndexPath *)to
+{
+    YAMatrix2DataOpTrack *track = [YAMatrix2DataOpTrack moveOpTrackFrom:from to:to];
+    [self excuteDataOp:track];
+    return track;
 }
 
 - (void)excuteDataOp:(YAMatrix2DataOpTrack *)opTrack
+{
+    switch (opTrack.op) {
+        case YAMatrix2DataTrackOperationAdd: {
+            [self excuteAdd:opTrack.data.firstObject at:opTrack.pos];
+        } break;
+        case YAMatrix2DataTrackOperationSectionAdd: {
+            [self excuteSectionAdd:opTrack.data section:opTrack.section];
+        } break;
+        case YAMatrix2DataTrackOperationDelete: {
+            [self excuteDelete:opTrack.pos];
+        } break;
+        case YAMatrix2DataTrackOperationSectionDelete: {
+            [self excuteSectionDelete:opTrack.section];
+        } break;
+        case YAMatrix2DataTrackOperationMove: {
+            [self excuteMoveFrom:opTrack.pos to:opTrack.to];
+        } break;
+        case YAMatrix2DataTrackOperationUpdate: {
+            [self excuteUpdate:opTrack.pos];
+        } break;
+        default:
+            break;
+    }
+}
+
+- (void)excuteAdd:(id)data at:(NSIndexPath *)pos
+{
+    [[self.store objectAtIndex:pos.section] insertObject:data atIndex:pos.row];
+}
+
+- (void)excuteSectionAdd:(NSArray *)datas section:(NSInteger)section
+{
+    [[self.store objectAtIndex:section] addObjectsFromArray:datas];
+}
+
+- (void)excuteDelete:(NSIndexPath *)pos
+{
+    [[self.store objectAtIndex:pos.section] removeObjectAtIndex:pos.row];
+}
+
+- (void)excuteSectionDelete:(NSInteger)section
+{
+    [self.store removeObjectAtIndex:section];
+}
+
+- (void)excuteMoveFrom:(NSIndexPath *)from to:(NSIndexPath *)to
+{
+    NSMutableArray *sectionData = [self.store objectAtIndex:from.section];
+    id data = [sectionData objectAtIndex:from.row];
+    [sectionData removeObjectAtIndex:from.row];
+    [self excuteAdd:data at:to];
+}
+
+- (void)excuteUpdate:(NSIndexPath *)pos
 {
     
 }

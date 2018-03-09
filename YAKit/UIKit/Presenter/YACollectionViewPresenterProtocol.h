@@ -10,6 +10,7 @@
 #define YACollectionViewPresenterProtocol_h
 
 #import <UIKit/UIKit.h>
+#import "YAMatrix2DataOpTrack.h"
 #import "YAScrollViewPresenterProtocol.h"
 
 @protocol YACollectionViewPresenterProtocol <YAScrollViewPresenterProtocol>
@@ -17,6 +18,7 @@
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section;
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath;
 - (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath;
+- (void)batchUpdate:(NSArray<YAMatrix2DataOpTrack *> *)tracks completion:(void(^)(void))completion;
 @end
 
 #endif /* YACollectionViewPresenterProtocol_h */

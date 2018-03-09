@@ -9,7 +9,9 @@
 #import <Foundation/Foundation.h>
 
 typedef enum : NSUInteger {
+    YAMatrix2DataTrackOperationSectionAdd,
     YAMatrix2DataTrackOperationAdd,
+    YAMatrix2DataTrackOperationSectionDelete,
     YAMatrix2DataTrackOperationDelete,
     YAMatrix2DataTrackOperationMove,
     YAMatrix2DataTrackOperationUpdate
@@ -17,11 +19,17 @@ typedef enum : NSUInteger {
 
 @interface YAMatrix2DataOpTrack : NSObject
 
-@property (nonatomic, strong) id data;
+@property (nonatomic, strong) NSArray *data;
+@property (nonatomic, assign) NSInteger section;
 @property (nonatomic, strong) NSIndexPath *pos;
 @property (nonatomic, assign) YAMatrix2DataTrackOperation op;
 @property (nonatomic, strong) NSIndexPath *to;
 
-+ (instancetype)opTrack:(YAMatrix2DataTrackOperation)op data:(id)data pos:(NSIndexPath *)pos to:(NSIndexPath *)to;
++ (instancetype)addOpTrackData:(id)data pos:(NSIndexPath *)pos;
++ (instancetype)sectionAddOpTrackData:(NSArray *)datas section:(NSInteger)section;
++ (instancetype)deleteOpTrackAtPos:(NSIndexPath *)pos;
++ (instancetype)sectionDeleteOpTrackAtSection:(NSInteger)section;
++ (instancetype)moveOpTrackFrom:(NSIndexPath *)from to:(NSIndexPath *)to;
++ (instancetype)updateOpTrackAt:(NSIndexPath *)pos;
 
 @end
