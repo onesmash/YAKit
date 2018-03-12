@@ -13,7 +13,7 @@
 #import "YAModel.h"
 #import "NSString+YA.h"
 
-#pragam mark - MVP
+#pragma mark - MVP
 #import "YAMVPProtocol.h"
 #import "YARoutingProtocol.h"
 #import "YAScrollViewPresenterProtocol.h"
