@@ -11,7 +11,7 @@
 #import <UIKit/UIKit.h>
 
 @interface YAMatrix2DataSource ()
-@property (nonatomic, strong) NSMutableArray<NSMutableArray *> *store;
+
 @end
 
 @implementation YAMatrix2DataSource

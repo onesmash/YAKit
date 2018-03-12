@@ -22,4 +22,6 @@
 
 @interface YAMatrix2DataSource : NSObject <YAMatrix2DataSource>
 
+@property (nonatomic, strong) NSMutableArray<NSMutableArray *> *store;
+
 @end
