@@ -18,7 +18,8 @@
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section;
-- (void)batchUpdate:(NSArray<YAMatrix2DataOpTrack *> *)tracks;
+- (void)batchUpdate:(NSArray<YAMatrix2DataOpTrack *> *)tracks animation:(UITableViewRowAnimation)animation completion:(void(^)(void))completion;
+- (void)reloadData;
 @end
 
 #endif /* YATableViewPresenterProtocol_h */

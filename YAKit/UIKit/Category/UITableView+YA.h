@@ -11,6 +11,6 @@
 
 @interface UITableView (YA)
 
-- (void)ya_batchUpdate:(NSArray<YAMatrix2DataOpTrack *> *)tracks completion:(void (^)(BOOL finished))completion;
+- (void)ya_batchUpdate:(NSArray<YAMatrix2DataOpTrack *> *)tracks animation:(UITableViewRowAnimation)animation completion:(void (^)(BOOL finished))completion;
 
 @end

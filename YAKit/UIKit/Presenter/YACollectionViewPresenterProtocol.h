@@ -19,6 +19,7 @@
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath;
 - (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath;
 - (void)batchUpdate:(NSArray<YAMatrix2DataOpTrack *> *)tracks completion:(void(^)(void))completion;
+- (void)reloadData;
 @end
 
 #endif /* YACollectionViewPresenterProtocol_h */

@@ -10,7 +10,12 @@
 #import "YARoutingProtocol.h"
 #import "YAVCPresenterProtocol.h"
 #import "YACollectionViewPresenterProtocol.h"
+#import "YAMatrix2DataSource.h"
+#import "YACollectionViewInteractor.h"
 
 @interface YACollectionViewPresenter : YAComponent <YACollectionViewPresenterProtocol, UICollectionViewDelegate, UICollectionViewDataSource>
+
+@property (nonatomic, strong) YAMatrix2DataSource *dataSource;
+@property (nonatomic, strong) YACollectionViewInteractor *interactor;
 
 @end

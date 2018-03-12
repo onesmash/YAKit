@@ -11,6 +11,8 @@
 #import "YARoutingProtocol.h"
 #import "YAVCPresenterProtocol.h"
 #import "YATableViewPresenterProtocol.h"
+#import "YAMatrix2DataSource.h"
+#import "YATableVCInteractor.h"
 
 @protocol YATableVCPresenterRequiredProtocol <YAViewPresenterRequiredProtocol, YARoutingProtocol>
 @property (nonatomic, readonly) UITableView *tableView;
@@ -18,4 +20,6 @@
 
 @interface YATableVCPresenter : YAViewPresenter <YAVCPresenterProtocol, YATableViewPresenterProtocol, UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, weak) id<YATableVCPresenterRequiredProtocol> delegate;
+@property (nonatomic, strong) YATableVCInteractor *interactor;
+@property (nonatomic, strong) YAMatrix2DataSource *dataSource;
 @end

@@ -32,3 +32,8 @@
 #import "YAVCPresenterProtocol.h"
 #import "YAViewPresenter.h"
 #import "YAViewPresenterProtocol.h"
+#import "YATableVCInteractor.h"
+#import "YATableViewInteractor.h"
+#import "YACollectionVCInteractor.h"
+#import "YACollectionViewInteractor.h"
+#import "YAMatrix2DataSource.h"

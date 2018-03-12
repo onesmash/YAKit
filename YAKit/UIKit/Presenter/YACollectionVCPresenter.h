@@ -7,17 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "YAComponent.h"
+#import "YAViewPresenter.h"
 #import "YARoutingProtocol.h"
 #import "YAVCPresenterProtocol.h"
 #import "YACollectionViewPresenterProtocol.h"
+#import "YAMatrix2DataSource.h"
+#import "YACollectionVCInteractor.h"
 
-@protocol YACollectionVCPresenterRequiredProtocol <YARoutingProtocol>
+@protocol YACollectionVCPresenterRequiredProtocol <YAViewPresenterRequiredProtocol, YARoutingProtocol>
 @property (nonatomic, readonly) UICollectionView *collectionView;
 @end
 
-@interface YACollectionVCPresenter : YAComponent <YAVCPresenterProtocol, YACollectionViewPresenterProtocol, UICollectionViewDelegate, UICollectionViewDataSource>
+@interface YACollectionVCPresenter : YAViewPresenter <YAVCPresenterProtocol, YACollectionViewPresenterProtocol, UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (nonatomic, weak) id<YACollectionVCPresenterRequiredProtocol> delegate;
+@property (nonatomic, strong) YAMatrix2DataSource *dataSource;
+@property (nonatomic, strong) YACollectionVCInteractor *interactor;
 
 @end

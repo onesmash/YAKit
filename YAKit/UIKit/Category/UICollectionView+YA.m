@@ -1,16 +1,15 @@
 //
-//  UITableView+YA.m
-//  YAKit
+//  UICollectionView+YA.m
+//  IGListKit
 //
-//  Created by 徐晖 on 2018/3/9.
-//  Copyright © 2018年 徐晖. All rights reserved.
+//  Created by 徐晖 on 2018/3/12.
 //
 
-#import "UITableView+YA.h"
+#import "UICollectionView+YA.h"
 
-@implementation UITableView (YA)
+@implementation UICollectionView (YA)
 
-- (void)ya_batchUpdate:(NSArray<YAMatrix2DataOpTrack *> *)tracks animation:(UITableViewRowAnimation)animation completion:(void (^)(BOOL finished))completion
+- (void)ya_batchUpdate:(NSArray<YAMatrix2DataOpTrack *> *)tracks completion:(void (^)(BOOL finished))completion;
 {
     NSMutableIndexSet *insertSections = [NSMutableIndexSet indexSet];
     NSMutableIndexSet *deleteSections = [NSMutableIndexSet indexSet];
@@ -42,19 +41,17 @@
                 break;
         }
     }];
-    [self beginUpdates];
-    [self insertSections:insertSections withRowAnimation:animation];
-    [self deleteSections:deleteSections withRowAnimation:animation];
-    [self insertRowsAtIndexPaths:insertRows withRowAnimation:animation];
-    [self deleteRowsAtIndexPaths:deleteRows withRowAnimation:animation];
-    [self reloadRowsAtIndexPaths:reloadRows withRowAnimation:animation];
-    for (YAMatrix2DataOpTrack *move in moveOps) {
-        [self moveRowAtIndexPath:move.pos toIndexPath:move.to];
-    }
-    [self endUpdates];
-    if(completion) {
-        completion(YES);
-    }
+    [self performBatchUpdates:^() {
+        [self insertSections:insertSections];
+        [self deleteSections:deleteSections];
+        [self insertItemsAtIndexPaths:insertRows];
+        [self deleteItemsAtIndexPaths:deleteRows];
+        [self reloadItemsAtIndexPaths:reloadRows];
+        for (YAMatrix2DataOpTrack *move in moveOps) {
+            [self moveItemAtIndexPath:move.pos toIndexPath:move.to];
+        }
+        
+    } completion:completion];
 }
 
 @end

@@ -10,16 +10,18 @@
 #import "UIView+YA.h"
 #import "YAMVPProtocol.h"
 #import "YACellPresenterProtocol.h"
-#import "YATableViewPresenter.h"
+#import "UITableView+YA.h"
 
 @interface YATableVCPresenter ()
-@property (nonatomic, strong) NSMutableArray<NSArray<YAMatrix2DataOpTrack *> *> *pendingUpdateOps;
+@property (nonatomic, strong) NSMutableArray *pendingUpdateOps;
 @property (nonatomic, assign) BOOL updating;
 @end
 
 @implementation YATableVCPresenter
 
 @dynamic delegate;
+@dynamic dataSource;
+@dynamic interactor;
 
 - (Protocol *)requiredProtocol
 {
@@ -124,14 +126,42 @@
     return 0;
 }
 
-- (void)batchUpdate:(NSArray<YAMatrix2DataOpTrack *> *)tracks
+- (void)batchUpdate:(NSArray<YAMatrix2DataOpTrack *> *)tracks animation:(UITableViewRowAnimation)animation completion:(void (^)(void))completion
 {
     if(!self.updating) {
         self.updating = YES;
-        
+        __weak typeof(self) wself = self;
+        [self.delegate.tableView ya_batchUpdate:tracks animation:animation completion:^(BOOL success) {
+            if(completion) {
+                completion();
+            }
+            [wself excutePendingUpdateOp];
+        }];
     } else {
-        [self.pendingUpdateOps addObject:tracks];
+        [self.pendingUpdateOps addObject:@[tracks, @(animation), completion]];
     }
+}
+
+- (void)excutePendingUpdateOp
+{
+    if(self.pendingUpdateOps.count <= 0) {
+        self.updating = NO;
+    }
+    NSArray *ops = self.pendingUpdateOps.firstObject;
+    [self.pendingUpdateOps removeObjectAtIndex:0];
+    __weak typeof(self) wself = self;
+    [self.delegate.tableView ya_batchUpdate:ops.firstObject animation:[[ops objectAtIndex:1] integerValue] completion:^(BOOL success) {
+        void (^completion)(void) = ops.lastObject;
+        if(completion) {
+            completion();
+        }
+        [wself excutePendingUpdateOp];
+    }];
+}
+
+- (void)reloadData
+{
+    [self.delegate.tableView reloadData];
 }
 
 @end

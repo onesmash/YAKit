@@ -10,14 +10,25 @@
 #import "UIView+YA.h"
 #import "YAMVPProtocol.h"
 #import "YACellPresenterProtocol.h"
+#import "UICollectionView+YA.h"
 
 @interface YACollectionViewPresenter ()
 @property (nonatomic, weak) UICollectionView *delegate;
+@property (nonatomic, strong) NSMutableArray *pendingUpdateOps;
+@property (nonatomic, assign) BOOL updating;
 @end
 
 @implementation YACollectionViewPresenter
 
 @dynamic delegate;
+@dynamic dataSource;
+@dynamic interactor;
+
+- (void)onComponentAttached
+{
+    _pendingUpdateOps = [NSMutableArray array];
+    _updating = NO;
+}
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -107,6 +118,44 @@
 
 - (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return 0;
+}
+
+- (void)batchUpdate:(NSArray<YAMatrix2DataOpTrack *> *)tracks completion:(void (^)(void))completion
+{
+    if(!self.updating) {
+        self.updating = YES;
+        __weak typeof(self) wself = self;
+        [self.delegate ya_batchUpdate:tracks completion:^(BOOL success) {
+            if(completion) {
+                completion();
+            }
+            [wself excutePendingUpdateOp];
+        }];
+    } else {
+        [self.pendingUpdateOps addObject:@[tracks, completion]];
+    }
+}
+
+- (void)excutePendingUpdateOp
+{
+    if(self.pendingUpdateOps.count <= 0) {
+        self.updating = NO;
+    }
+    NSArray *ops = self.pendingUpdateOps.firstObject;
+    [self.pendingUpdateOps removeObjectAtIndex:0];
+    __weak typeof(self) wself = self;
+    [self.delegate ya_batchUpdate:ops.firstObject completion:^(BOOL success) {
+        void (^completion)(void) = ops.lastObject;
+        if(completion) {
+            completion();
+        }
+        [wself excutePendingUpdateOp];
+    }];
+}
+
+- (void)reloadData
+{
+    [self.delegate reloadData];
 }
 
 @end
