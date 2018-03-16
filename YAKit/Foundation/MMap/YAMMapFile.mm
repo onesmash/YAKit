@@ -70,4 +70,9 @@
     return _mmapFile->flush(async);
 }
 
+- (BOOL)close
+{
+    return _mmapFile->close();
+}
+
 @end

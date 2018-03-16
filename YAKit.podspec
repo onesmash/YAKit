@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "YAKit"
-  s.version      = "0.1.8"
+  s.version      = "0.2.1"
   s.summary      = "YAKit"
 
   s.description  = <<-DESC

@@ -18,7 +18,7 @@ using namespace std;
 
 #define kMapFileSizeMax (1024 * 1024 * 700)
 
-MMapFile::MMapFile(): opened_(false), size_(0), map_size_(0), fd_(-1), mmap_base_(NULL)
+MMapFile::MMapFile(): opened_(false), map_size_(0), fd_(-1), mmap_base_(NULL)
 {
     //page_size_ = sysconf(_SC_PAGE_SIZE);
 }
@@ -26,8 +26,6 @@ MMapFile::MMapFile(): opened_(false), size_(0), map_size_(0), fd_(-1), mmap_base
 MMapFile::MMapFile(const MMapFile& mapFile)
 {
     opened_ = mapFile.opened_;
-    
-    size_ = mapFile.size_;
     
     map_size_ = mapFile.map_size_;
     
@@ -44,9 +42,6 @@ MMapFile::MMapFile(MMapFile&& mapFile)
 {
     opened_ = mapFile.opened_;
     mapFile.opened_ = false;
-    
-    size_ = mapFile.size_;
-    mapFile.size_ = 0;
     
     map_size_ = mapFile.map_size_;
     mapFile.map_size_ = 0;
@@ -74,9 +69,6 @@ MMapFile& MMapFile::operator=(MMapFile&& mapFile)
 {
     opened_ = mapFile.opened_;
     mapFile.opened_ = false;
-    
-    size_ = mapFile.size_;
-    mapFile.size_ = 0;
     
     map_size_ = mapFile.map_size_;
     mapFile.map_size_ = 0;
@@ -113,11 +105,10 @@ bool MMapFile::open(const string& filePath, Mode mode, AccessMode accessMode, si
     
     lseek(fd_, 0, SEEK_SET);
     
-    if(mode == ModeWriteAppend || mode == ModeWriteTruncate) {
+    if(mode == ModeWrite || mode == ModeWriteAppend || mode == ModeWriteTruncate) {
         if(file_size < size) {
             if(!resizeMapFile(size)) {
                 ::close(fd_);
-                size_ = 0;
                 return false;
             }
         }
@@ -128,14 +119,13 @@ bool MMapFile::open(const string& filePath, Mode mode, AccessMode accessMode, si
     
     if(mmap_base_ == MAP_FAILED) {
         ::close(fd_);
-        size_ = 0;
         map_size_ = 0;
         return false;
     }
     
     filePath_ = filePath;
-    size_ = file_size;
     map_size_ = size;
+    file_size_ = size;
     mode_ = mode;
     opened_ = true;
     setAccessMode(accessMode);
@@ -150,6 +140,13 @@ int MMapFile::openFile(const std::string& filePath, Mode mode)
             fd = ::open(filePath.c_str(), O_RDONLY);
             if (fd == -1) {
                 perror("Error opening file for reading");
+            }
+            break;
+        }
+        if(mode == ModeWrite) {
+            fd = ::open(filePath.c_str(), O_RDWR | O_CREAT, 0644);
+            if (fd == -1) {
+                perror("Error opening file for writing");
             }
             break;
         }
@@ -197,15 +194,15 @@ void MMapFile::setAccessMode(AccessMode mode)
 
 bool MMapFile::resizeMapFile(size_t size)
 {
-    if(size < size_) return true;
+    if(size < map_size_) return true;
     
-    if(lseek(fd_, size - 1, SEEK_SET) == -1) {
-        return false;
-    }
-    if(::write(fd_, "", 1) == -1) {
-        return false;
-    }
-    
+//    if(lseek(fd_, size - 1, SEEK_SET) == -1) {
+//        return false;
+//    }
+//    if(::write(fd_, "", 1) == -1) {
+//        return false;
+//    }
+    ftruncate(fd_, size);
     return true;
 }
 
@@ -239,27 +236,31 @@ bool MMapFile::remap(size_t size)
 
 bool MMapFile::write(const char* src, size_t size, off_t offset)
 {
-    if(!opened_) return false;
+    if(!opened_ || mode_ == ModeRead) return false;
     if(offset + size <= map_size_) {
         memcpy(mmap_base_ + offset, src, size);
-        size_ = (offset + size > size_ ? offset + size : size_);
+        lseek(fd_, offset, SEEK_SET);
+        if(offset + 1 > file_size_) {
+            file_size_ = offset + size;
+        }
         return true;
-    } else {
-        if(!remap(min<size_t>(kMapFileSizeMax, (size_ + size) * 2))) {
+    } else if(mode_ == ModeWriteAppend)  {
+        if(!remap(min<size_t>(kMapFileSizeMax, (map_size_ + size) * 2))) {
             return false;
         }
         return write(src, size, offset);
     }
+    return false;
 }
 
 bool MMapFile::append(const char* src, size_t size)
 {
-    return write(src, size, size_);
+    return write(src, size, lseek(fd_, 0, SEEK_CUR));
 }
 
 const char* MMapFile::read(size_t size, off_t offset)
 {
-    if(!opened_ || offset + size > size_) return NULL;
+    if(!opened_ || offset + size > map_size_) return NULL;
     return mmap_base_ + offset;
 }
 
@@ -270,15 +271,14 @@ bool MMapFile::close()
     }
     mmap_base_ = NULL;
     
-    if(fd_ != -1 && size_ < map_size_) {
-        ftruncate(fd_, size_);
+    if(fd_ != -1 && file_size_ < map_size_) {
+        ftruncate(fd_, file_size_);
     }
     
     if(fd_ != -1 && ::close(fd_) != 0) {
         return false;
     }
     fd_ = -1;
-    size_ = 0;
     map_size_ = 0;
     opened_ = false;
     return true;
@@ -287,8 +287,13 @@ bool MMapFile::close()
 
 bool MMapFile::flush(bool aync)
 {
-    if(mmap_base_ != NULL && msync(mmap_base_, size_, aync ? MS_ASYNC : MS_SYNC) == -1) {
+    if(mmap_base_ != NULL && msync(mmap_base_, map_size_, aync ? MS_ASYNC : MS_SYNC) == -1) {
         return false;
     }
     return true;
+}
+
+void MMapFile::truncate(size_t size)
+{
+    ftruncate(fd_, size);
 }

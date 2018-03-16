@@ -9,6 +9,7 @@
 
 typedef enum : NSUInteger {
     YAMMapFileOpenModeRead,
+    YAMMapFileOpenModeWrite,
     YAMMapFileOpenModeWriteAppend,
     YAMMapFileOpenModeWriteTruncate,
 } YAMMapFileOpenMode;
@@ -26,5 +27,6 @@ typedef enum : NSUInteger {
 - (const char*)read:(size_t)size offset:(off_t)offset;
 
 - (BOOL)flush:(BOOL)async;
+- (BOOL)close;
 
 @end

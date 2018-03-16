@@ -16,6 +16,7 @@ class MMapFile
 public:
     typedef enum {
         ModeRead,
+        ModeWrite,
         ModeWriteAppend,
         ModeWriteTruncate
     } Mode;
@@ -45,6 +46,8 @@ public:
     
     bool flush(bool aync = true);
     
+    void truncate(size_t size);
+    
     size_t size() const { return map_size_; }
     
     const char* mmapBase() const { return mmap_base_; }
@@ -59,8 +62,8 @@ private:
     std::string filePath_;
     Mode mode_;
     int fd_;
-    size_t size_;
     size_t map_size_;
+    size_t file_size_;
     char* mmap_base_;
     AccessMode access_mode_;
 };
